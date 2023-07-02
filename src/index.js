@@ -1,29 +1,38 @@
+import { loadPage } from "./Page";
 import { taskFactory, projectFactory } from "./AppLogic";
-import { displayTask, clearTasks } from "./UserInterface";
+import { displayProject, displayTask, clearProjects } from "./UserInterface";
+
+loadPage();
 
 const tasks = [];
+const projects = [];
 
 const titleInput = document.getElementById('title');
 const descripInput = document.getElementById('descrip');
 const dateInput = document.getElementById('due-date');
 const priorityInput = document.getElementById('priority');
 
-document.getElementById('create-btn').addEventListener('click', e => {
+const defaultProject = projectFactory('Default Project');
+projects.push(defaultProject);
+
+document.getElementById('submit-task').addEventListener('click', e => {
   e.preventDefault();
   tasks.push(taskFactory(titleInput.value, descripInput.value, dateInput.value, priorityInput.value));
+  console.log('Tasks: ', tasks);
+  defaultProject.addTask(tasks[tasks.length - 1]);
   resetInputs();
-  clearTasks();
-  displayTasks();
+  clearProjects();
+  displayProjectsAndTasks();
 });
 
-document.getElementById('cancel-btn').addEventListener('click', e => {
+document.getElementById('clear-task').addEventListener('click', e => {
   e.preventDefault();
   resetInputs();
 });
 
-document.getElementById('task-container').addEventListener('click', e => {
+document.getElementById('project-container').addEventListener('click', e => {
   if (e.target.classList.contains('delete-btn')) {
-    deleteTask(e.target.dataset.index);
+    deleteTask(e.target.dataset.projId, e.target.dataset.taskId);
   }
 });
 
@@ -34,23 +43,26 @@ const resetInputs = () => {
   priorityInput.value = 'low';
 };
 
-const displayTasks = () => {
+const displayProjectsAndTasks = () => {
+  for (let i = 0; i < projects.length; i++) {
+    const project = projects[i];
+    displayProject(project.name, i);
+    console.log(project.tasks);
+    const projTasks = project.tasks;
+    for (let j = 0; j < projTasks.length; j++) {
+      const task = projTasks[j];
+      displayTask(task.title, task.description, task.dueDate, task.priority, i, j);
+    }
+  }/*
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     displayTask(task.title, task.description, task.dueDate, task.priority, i);
-  }
+  }*/
 };
 
-const deleteTask = (index) => {
-  tasks.splice(index, 1);
-  clearTasks();
-  displayTasks();
+const deleteTask = (projId, taskId) => {
+  projects[projId].removeTask(taskId);
+  // tasks.splice(index, 1);
+  clearProjects();
+  displayProjectsAndTasks();
 };
-
-// displayTasks(defaultProj);
-
-// const projects = [];
-// projects.push(defaultProj);
-
-// console.log(task1);
-// console.log(defaultProj);

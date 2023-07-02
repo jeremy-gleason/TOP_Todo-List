@@ -1,10 +1,20 @@
-const taskContainer = document.getElementById('task-container');
+// const taskContainer = document.getElementById('task-container');
 
-const displayTask = (title, description, dueDate, priority, index) => {
-  // const taskContainer = document.getElementById('task-container');
+const displayProject = (name, index) => {
+  const projContainer = document.getElementById('project-container');
+  const projDiv = document.createElement('div');
+  projDiv.dataset.index = index;
+  const projTitle = document.createElement('h2');
+  projTitle.textContent = name;
+  projDiv.appendChild(projTitle);
+  projContainer.appendChild(projDiv);
+};
+
+const displayTask = (title, description, dueDate, priority, projId, taskId) => {
+  const parentProj = document.querySelector(`[data-index='${projId}']`);
   const taskDiv = document.createElement('div');
   taskDiv.classList.add(`${priority}-priority`);
-  taskDiv.dataset.index = index;
+  taskDiv.dataset.taskId = taskId;
   const taskTitle = document.createElement('h3');
   taskTitle.textContent = title;
   const taskDescrip = document.createElement('p');
@@ -13,20 +23,22 @@ const displayTask = (title, description, dueDate, priority, index) => {
   taskDue.textContent = `Due: ${dueDate}`;
   const deleteBtn = document.createElement('input');
   deleteBtn.type = 'image';
-  deleteBtn.dataset.index = index;
+  deleteBtn.dataset.projId = projId;
+  deleteBtn.dataset.taskId = taskId;
   deleteBtn.src = 'delete.svg';
   deleteBtn.classList.add('delete-btn');
   taskDiv.appendChild(taskTitle);
   taskDiv.appendChild(taskDescrip);
   taskDiv.appendChild(taskDue);
   taskDiv.appendChild(deleteBtn);
-  taskContainer.appendChild(taskDiv);
+  parentProj.appendChild(taskDiv);
 };
 
-const clearTasks = () => {
-  while (taskContainer.hasChildNodes()) {
-    taskContainer.removeChild(taskContainer.firstChild);
+const clearProjects = () => {
+  const projContainer = document.getElementById('project-container');
+  while (projContainer.hasChildNodes()) {
+    projContainer.removeChild(projContainer.firstChild);
   }
 };
 
-export { displayTask, clearTasks };
+export { displayProject, displayTask, clearProjects };

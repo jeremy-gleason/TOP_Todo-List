@@ -7,7 +7,10 @@ const projectFactory = (name) => {
   const addTask = (task) => {
     tasks.push(task);
   }
-  return { name, tasks, addTask };
+  const removeTask = (taskId) => {
+    tasks.splice(taskId, 1);
+  }
+  return { name, tasks, addTask, removeTask };
 }
 
 export { taskFactory, projectFactory };
