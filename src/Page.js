@@ -41,6 +41,10 @@ const loadMain = () => {
 
   const projContainer = document.createElement('div');
   projContainer.id = 'project-container';
+  /*projContainer.innerHTML = `
+    <div data-index="0">
+      <h2>Default Project</h2>
+    </div>`;*/
   pageMain.appendChild(projContainer);
 };
 
@@ -64,6 +68,11 @@ const loadTaskForm = (parent) => {
       <input type="date" id="due-date">
     </div>
     <div>
+      <label for="project-select">Project</label>
+      <select name="project" id="project-select">
+      </select>
+    </div>
+    <div>
       <label for="priority">Priority</label>
       <select name="priority" id="priority">
         <option value="low">Low</option>
@@ -85,8 +94,8 @@ const loadProjectForm = (parent) => {
 
   projForm.innerHTML = `
     <div>
-      <label for="name">Name</label>
-      <input type="text" id="name">
+      <label for="proj-name">Name</label>
+      <input type="text" id="proj-name">
     </div>
     <button id="submit-project">Create</button>
     <button id="clear-project">Clear</button>`;

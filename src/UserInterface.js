@@ -41,4 +41,17 @@ const clearProjects = () => {
   }
 };
 
-export { displayProject, displayTask, clearProjects };
+const updateProjSelect = (projects) => {
+  const projSelect = document.getElementById('project-select');
+  while (projSelect.hasChildNodes()) {
+    projSelect.removeChild(projSelect.firstChild);
+  }
+  for (let i = 0; i < projects.length; i++) {
+    const projOption = document.createElement('option');
+    projOption.value = i;
+    projOption.textContent = projects[i];
+    projSelect.appendChild(projOption);
+  }
+};
+
+export { displayProject, displayTask, clearProjects, updateProjSelect };

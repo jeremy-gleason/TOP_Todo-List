@@ -13,4 +13,13 @@ const projectFactory = (name) => {
   return { name, tasks, addTask, removeTask };
 }
 
-export { taskFactory, projectFactory };
+const restoreProjMethods = (project) => {
+  project.addTask = (function(task) {
+    this.tasks.push(task);
+  }).bind(project);
+  project.removeTask = (function(taskId) {
+    this.tasks.splice(taskId, 1);
+  });
+};
+
+export { taskFactory, projectFactory, restoreProjMethods };
